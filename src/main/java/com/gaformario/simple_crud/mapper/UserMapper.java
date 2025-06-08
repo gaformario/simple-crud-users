@@ -1,13 +1,14 @@
 package com.gaformario.simple_crud.mapper;
 
+import com.gaformario.simple_crud.controller.dto.UserDTO;
 import com.gaformario.simple_crud.infrastructure.entitys.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
-import org.mapstruct.NullValuePropertyMappingStrategy;
 
-@Mapper(componentModel = "spring",
-        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+@Mapper(componentModel = "spring")
 public interface UserMapper {
+    UserDTO toDTO(User user);
+    User toEntity(UserDTO dto);
 
-    void updateUserFromEntity(User source, @MappingTarget User target);
+    void updateUserFromDTO(UserDTO source, @MappingTarget User target);
 }
