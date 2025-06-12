@@ -49,7 +49,7 @@ public class UserService {
 
         userMapper.updateUserFromDTO(user, userEntity);
 
-        if (user.getPassword() != null && !user.getPassword().isEmpty()) {
+        if (user.password() != null && !user.password().isEmpty()) {
             userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
         }
 

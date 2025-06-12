@@ -1,11 +1,4 @@
 package com.gaformario.simple_crud.controller.dto;
 
-import lombok.*;
+public record AuthResponseDTO(String token) {}
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-public class AuthResponseDTO {
-    private String token;
-}

@@ -1,12 +1,4 @@
 package com.gaformario.simple_crud.controller.dto;
 
-import lombok.*;
+public record AuthRequestDTO(String email, String password) {}
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-public class AuthRequestDTO {
-    private String email;
-    private String password;
-}

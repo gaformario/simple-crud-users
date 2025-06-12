@@ -23,7 +23,7 @@ public class AuthController {
     @PostMapping("/login")
     @Operation(summary = "Login user credentials")
     public ResponseEntity<AuthResponseDTO> login(@RequestBody AuthRequestDTO authRequestDTO) {
-        String token = authService.authenticate(authRequestDTO.getEmail(), authRequestDTO.getPassword());
+        String token = authService.authenticate(authRequestDTO.email(), authRequestDTO.password());
         return ResponseEntity.ok(new AuthResponseDTO(token));
     }
 
