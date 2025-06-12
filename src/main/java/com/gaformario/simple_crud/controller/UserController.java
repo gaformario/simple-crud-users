@@ -1,36 +1,45 @@
 package com.gaformario.simple_crud.controller;
 
 import com.gaformario.simple_crud.business.UserService;
-import com.gaformario.simple_crud.infrastructure.entitys.User;
+import com.gaformario.simple_crud.controller.dto.UserRequestDTO;
+import com.gaformario.simple_crud.controller.dto.UserResponseDTO;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/users")
+@Tag(name = "Users")
 @RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
 
-    @PostMapping
-    public ResponseEntity<Void> createUser(@RequestBody User user) {
-        userService.saveUser(user);
-        return ResponseEntity.ok().build();
+    @GetMapping
+    @Operation(summary = "Get all users")
+    public ResponseEntity<List<UserResponseDTO>> getAllUsers() {
+        return ResponseEntity.ok(userService.getUsers());
     }
 
-    @GetMapping
-    public ResponseEntity<User> getUserByEmail(@RequestParam String email) {
+    @GetMapping("/{email}")
+    @Operation(summary = "Get user by email")
+    public ResponseEntity<UserResponseDTO> getUserByEmail(@PathVariable String email) {
         return ResponseEntity.ok(userService.getUserByEmail(email));
     }
 
-    @PutMapping
-    public ResponseEntity<Void> updateUser(@RequestParam Integer id, @RequestBody User user) {
-        userService.updateUserById(id, user);
+    @PutMapping("/{id}")
+    @Operation(summary = "Update user")
+    public ResponseEntity<Void> updateUser(@PathVariable Integer id, @RequestBody UserRequestDTO userDTO) {
+        userService.updateUserById(id, userDTO);
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{email}")
+    @Operation(summary = "Delete user by email")
     public ResponseEntity<Void> deleteUserByEmail(@RequestParam String email) {
         userService.deleteUserByEmail(email);
         return ResponseEntity.ok().build();
