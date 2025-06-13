@@ -30,6 +30,11 @@ public class AuthService {
         Date now = new Date();
         Date expiry = new Date(now.getTime() + 3600_000);
 
-        return jwtTokenService.create(user.getId().toString(), now, expiry);
+        return jwtTokenService.create(
+                user.getId().toString(),
+                user.getRole().getRole(),
+                now,
+                expiry
+        );
     }
 }

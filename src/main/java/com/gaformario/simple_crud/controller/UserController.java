@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,6 +30,14 @@ public class UserController {
     @Operation(summary = "Get user by email")
     public ResponseEntity<UserResponseDTO> getUserByEmail(@PathVariable String email) {
         return ResponseEntity.ok(userService.getUserByEmail(email));
+    }
+
+    @GetMapping("/profile")
+    @Operation(summary = "Get own profile (Authenticated users)")
+    public ResponseEntity<UserResponseDTO> getProfile(Authentication authentication) {
+        String userId = authentication.getName();
+        UserResponseDTO userProfile = userService.getUserById(Integer.valueOf(userId));
+        return ResponseEntity.ok(userProfile);
     }
 
     @PutMapping("/{id}")

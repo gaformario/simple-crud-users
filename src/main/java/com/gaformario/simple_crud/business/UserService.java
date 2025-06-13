@@ -4,6 +4,7 @@ import com.gaformario.simple_crud.controller.dto.UserRequestDTO;
 import com.gaformario.simple_crud.controller.dto.UserResponseDTO;
 import com.gaformario.simple_crud.infrastructure.entitys.User;
 import com.gaformario.simple_crud.infrastructure.repository.UserRepository;
+import com.gaformario.simple_crud.infrastructure.entitys.UserRole;
 import com.gaformario.simple_crud.mapper.UserMapper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,7 @@ public class UserService {
     public void saveUser(UserRequestDTO userDTO) {
         User user = userMapper.toEntity(userDTO);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole(userDTO.role() != null ? userDTO.role() : UserRole.USER);
         repository.saveAndFlush(user);
     }
 
@@ -36,6 +38,12 @@ public class UserService {
     public UserResponseDTO getUserByEmail(String email) {
         User user = repository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Email not found"));
+        return userMapper.toDTO(user);
+    }
+
+    public UserResponseDTO getUserById(Integer id) {
+        User user = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
         return userMapper.toDTO(user);
     }
 
